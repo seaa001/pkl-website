@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi RPG Pabrik AMDK - Modern Version</title>
+    
+    <style>
+        /* ==========================================================
+           BAGIAN CSS: Tampilan dirombak biar modern & estetik (Clean UI)
+           ========================================================== */
+
+        /* Reset dasar biar jarak bawaan browser hilang */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Ganti font ke Sans-Serif modern biar teksnya rapi dan nggak kaku */
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0b0f19; /* Latar belakang hitam kebiruan mewah */
+            color: #f8fafc;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Kotak game utama pas 1 layar */
+        .game-screen {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Layar atas tempat animasi objek gambar */
+        .game-scene {
+            flex: 1; 
+            position: relative;
+            background: linear-gradient(to bottom, #bae6fd, #e0f2fe); /* Warna langit gradasi estetik */
+            transition: background 1s ease; /* Transisi warna background biar smooth */
+            overflow: hidden;
+        }
+
+        /* Pengaturan elemen background belakang (gunung/pabrik) */
+        .bg-element {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: bottom;
+            opacity: 0; 
+            transition: opacity 1s ease;
+        }
+        
+        /* Awal mula cuma gunung yang kelihatan */
+        #bg-mountain { opacity: 1; }
+
+        /* Sabuk berjalan modern (Rel mesin) */
+        .ground-layer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 70px; 
+            background: #0f172a; /* Warna abu-abu gelap metalik */
+            border-top: 4px solid #22c55e; /* Garis pembatas warna hijau neon di awal */
+            overflow: hidden;
+            transition: all 1s ease;
+        }
+
+        /* Garis putus-putus minimalis di sabuk berjalan */
+        .moving-lines {
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(90deg, transparent, transparent 30px, #22c55e 30px, #22c55e 50px);
+            opacity: 0.3; /* Dibikin agak transparan biar estetik */
+            animation: moveConveyor 1s linear infinite; /* Gerak tanpa henti */
+        }
+
+        /* Animasi jalannya garis sabuk */
+        @keyframes moveConveyor {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50px); }
+        }
+
+        /* Karakter/Item game yang bakal muncul di tengah rel */
+        .game-object {
+            position: absolute;
+            bottom: 70px; 
+            left: -20%; /* Sembunyi di kiri luar layar */
+            width: 140px; 
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            transition: left 1.5s ease-in-out, opacity 0.5s; /* Efek meluncur ke kanan */
+            z-index: 10;
+            animation: floatObject 1.2s infinite alternate ease-in-out; /* Animasi melayang naik-turun alus */
+        }
+
+        /* Efek melayang objek biar kelihatan hidup */
+        @keyframes floatObject {
+            from { transform: translateY(0); }
+            to { transform: translateY(-8px); } 
+        }
+
+        /* MODERNDIALOG BOX: Desain ala panel kaca transparan (Glassmorphism) */
+        .rpg-dialog {
+            height: 200px; 
+            background: rgba(15, 23, 42, 0.9); /* Transparan gelap */
+            backdrop-filter: blur(12px); /* Efek blur di belakang kotak dialog */
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1); /* Garis batas tipis putih transparan */
+            padding: 25px 40px;
+            position: relative;
+        }
+
+        /* Judul Stage / Level */
+        .dialog-title {
+            color: #38bdf8; /* Biru muda neon kekinian */
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Teks Penjelasan di Kotak Dialog */
+        .dialog-text {
+            color: #cbd5e1; /* Warna putih soft abu-abu biar adem di mata */
+            font-size: 1.05rem;
+            line-height: 1.6;
+            min-height: 60px;
+        }
+
+        /* Kursor kedip komputer modern */
+        .blink-cursor {
+            color: #38bdf8;
+            font-weight: bold;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Wadah Tombol Aksi */
+        .action-buttons {
+            position: absolute;
+            bottom: 25px;
+            right: 40px;
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Tombol Modern (Membulat, borderless, ada gradasi warna) */
+        .btn-action, .btn-exit {
+            background: linear-gradient(135deg, #0284c7, #0369a1); /* Gradasi biru mewah */
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px; /* Sudut melengkung halus */
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3); /* Efek bayangan tombol bercahaya */
+            transition: all 0.2s ease;
+            display: none; 
+        }
+
+        /* Efek melayang saat tombol disentuh mouse */
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* Tombol Keluar (Warna gradasi merah modern) */
+        .btn-exit {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-exit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-screen">
+        
+        <!-- Layar Utama Simulasi -->
+        <div class="game-scene" id="scene-bg">
+            
+            <!-- Elemen Gambar Latar Belakang (Menggunakan gradasi CSS flat design modern) -->
+            <div class="bg-element" id="bg-mountain" style="background: radial-gradient(circle at 50% 120%, #4ade80, #16a34a 55%, transparent 56%);"></div>
+            <div class="bg-element" id="bg-factory" style="background: linear-gradient(90deg, #64748b 2px, transparent 2px) 0 0/40px 100%, #475569;"></div>
+            <div class="bg-element" id="bg-warehouse" style="background: linear-gradient(90deg, #fb923c 4px, transparent 4px) 0 0/80px 100%, #ea580c;"></div>
+            
+            <!-- Tempat Munculnya Objek Air/Botol/Truk -->
+            <div class="game-object" id="player-item"></div>
+
+            <!-- Area Rel / Sabuk Berjalan -->
+            <div class="ground-layer" id="ground">
+                <div class="moving-lines" id="moving-belt"></div>
+            </div>
+        </div>
+
+        <!-- Panel Teks Dialog Bawah -->
+        <div class="rpg-dialog">
+            <div class="dialog-title" id="d-title">SYSTEM PABRIK</div>
+            <div class="dialog-text">
+                <span id="d-text">Sistem siap. Tekan "Mulai Produksi" untuk menjalankan simulasi Pabrik AMDK.</span><span class="blink-cursor">|</span>
+            </div>
+            
+            <!-- Tombol Navigasi Game -->
+            <div class="action-buttons">
+                <button class="btn-action" id="next-btn" style="display: block;" onclick="playNextStage()">Mulai Produksi ➔</button>
+                <button class="btn-action" id="restart-btn" onclick="resetGame()">Main Lagi ↺</button>
+                <button class="btn-exit" id="exit-btn" onclick="window.location.href='home.html'">Berhenti & Keluar 🏠</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==========================================================
+       BAGIAN JAVASCRIPT: Logikanya tetep ringkas dan mudah dibaca
+       ========================================================== -->
+    <script>
+        // Kumpulan Gambar Objek berbentuk kode vektor SVG agar gambarnya jernih
+        const svgWater = `<svg width="100%" height="100%" viewBox="0 0 24 24"><path fill="#38bdf8" d="M12,20a6,6 0 0,1 -6,-6c0,-4 6,-10 6,-10c0,0 6,6 6,10a6,6 0 0,1 -6,6Z"/></svg>`;
+        const svgCleanWater = `<svg width="100%" height="100%" viewBox="0 0 24 24"><path fill="#22d3ee" d="M12,20a6,6 0 0,1 -6,-6c0,-4 6,-10 6,-10c0,0 6,6 6,10a6,6 0 0,1 -6,6Z"/><circle cx="12" cy="14" r="2" fill="#fff"/></svg>`;
+        const svgEmptyBottle = `<svg width="100%" height="100%" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.3)" stroke="#fff" stroke-width="1.5" d="M9,8 L9,4 L10,4 L10,2 L14,2 L14,4 L15,4 L15,8 L18,10 L18,22 L6,22 L6,10 Z"/></svg>`;
+        const svgFilledBottle = `<svg width="100%" height="100%" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.3)" stroke="#fff" stroke-width="1.5" d="M9,8 L9,4 L10,4 L10,2 L14,2 L14,4 L15,4 L15,8 L18,10 L18,22 L6,22 L6,10 Z"/><path fill="#38bdf8" d="M7,12 L17,12 L17,21 L7,21 Z"/></svg>`;
+        const svgBox = `<svg width="100%" height="100%" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="16" fill="#ea580c"/><rect x="2" y="6" width="20" height="4" fill="#fb923c"/><line x1="12" y1="6" x2="12" y2="22" stroke="#c2410c" stroke-width="2"/></svg>`;
+        const svgTruck = `<svg width="100%" height="100%" viewBox="0 0 24 24"><rect x="1" y="6" width="15" height="12" fill="#f1f5f9" stroke="#334155" stroke-width="1"/><rect x="16" y="10" width="7" height="8" fill="#ef4444"/><circle cx="5" cy="19" r="3" fill="#1e293b"/><circle cx="19" cy="19" r="3" fill="#1e293b"/></svg>`;
+
+        // Array Kotak Penampung Skenario Level Game
+        const stages = [
+            {
+                title: "1. SUMBER AIR BAKU",
+                text: "Memompa air dari mata air pegunungan dalam (Deep Well). Air dialirkan via pipa food-grade ke pabrik.",
+                svg: svgWater,
+                pos: "10%",
+                bg: "mountain"
+            },
+            {
+                title: "2. WATER TREATMENT PLANT (WTP)",
+                text: "Proses filtrasi Karbon Aktif & Reverse Osmosis. Air disterilkan dengan Ozon (O3) untuk membunuh bakteri.",
+                svg: svgCleanWater,
+                pos: "25%",
+                bg: "factory"
+            },
+            {
+                title: "3. PEMBUATAN KEMASAN",
+                text: "Biji plastik PET dipanaskan & dicetak. Botol dicuci bersih secara otomatis menggunakan air steril.",
+                svg: svgEmptyBottle,
+                pos: "45%",
+                bg: "factory"
+            },
+            {
+                title: "4. FILLING & CAPPING",
+                text: "Air dimasukkan ke botol di ruangan hampa udara, lalu disegel rapat agar kualitas tetap terjaga.",
+                svg: svgFilledBottle,
+                pos: "65%",
+                bg: "factory"
+            },
+            {
+                title: "5. PENGEMASAN & KARANTINA",
+                text: "Botol diberi label dan dimasukkan ke karton. Disimpan sementara untuk pengecekan standar Mutu (QC) & SNI.",
+                svg: svgBox,
+                pos: "75%",
+                bg: "warehouse"
+            },
+            {
+                title: "6. DISTRIBUSI",
+                text: "Produk lolos uji diangkut ke truk logistik. Siap dikirim ke distributor, supermarket, hingga konsumen!",
+                svg: svgTruck,
+                pos: "120%", 
+                bg: "warehouse"
+            }
+        ];
+
+        let currentStage = 0; // Penunjuk level saat ini
+        let isTyping = false; // Status efek ngetik teks
+
+        // Fungsi utama saat menekan tombol Lanjut / Mulai
+        function playNextStage() {
+            if (isTyping) return; // Kunci tombol kalau teks belum kelar ngetik
+
+            if (currentStage >= stages.length) {
+                showEndScreen(); // Panggil layar tamat jika sudah level terakhir
+                return;
+            }
+
+            const data = stages[currentStage]; 
+            
+            const btn = document.getElementById("next-btn");
+            const dTitle = document.getElementById("d-title");
+            const dText = document.getElementById("d-text");
+            const playerItem = document.getElementById("player-item");
+            const belt = document.getElementById("moving-belt");
+            const ground = document.getElementById("ground");
+
+            // Sembunyikan tombol sementara agar fokus ke teks jalan
+            btn.style.display = "none";
+            dText.innerHTML = "";
+            dTitle.innerHTML = data.title;
+
+            // Logika Ganti Latar & Warna Neon Sabuk sesuai Tema Stage secara Modern
+            document.querySelectorAll('.bg-element').forEach(el => el.style.opacity = 0);
+            
+            if(data.bg === 'mountain') {
+                document.getElementById('bg-mountain').style.opacity = 1;
+                document.getElementById('scene-bg').style.background = "linear-gradient(to bottom, #bae6fd, #e0f2fe)"; 
+                ground.style.borderTopColor = "#22c55e"; // Rel Hijau Neon
+                belt.style.background = "repeating-linear-gradient(90deg, transparent, transparent 30px, #22c55e 30px, #22c55e 50px)";
+            } else if (data.bg === 'factory') {
+                document.getElementById('bg-factory').style.opacity = 1;
+                document.getElementById('scene-bg').style.background = "linear-gradient(to bottom, #1e293b, #0f172a)"; 
+                ground.style.borderTopColor = "#38bdf8"; // Rel Biru Neon
+                belt.style.background = "repeating-linear-gradient(90deg, transparent, transparent 30px, #38bdf8 30px, #38bdf8 50px)";
+            } else if (data.bg === 'warehouse') {
+                document.getElementById('bg-warehouse').style.opacity = 1;
+                document.getElementById('scene-bg').style.background = "linear-gradient(to bottom, #334155, #1e293b)"; 
+                ground.style.borderTopColor = "#f97316"; // Rel Oranye Neon
+                belt.style.background = "repeating-linear-gradient(90deg, transparent, transparent 30px, #f97316 30px, #f97316 50px)";
+            }
+
+            // Memunculkan objek gambar di atas rel
+            playerItem.style.opacity = 1;
+            playerItem.innerHTML = data.svg;
+            playerItem.style.left = data.pos;
+
+            // Efek Mesin Ketik Huruf per Huruf
+            isTyping = true;
+            let i = 0;
+            const textToType = data.text;
+            const speed = 30; // Kecepatan ngetik (milidetik)
+            
+            function typeWriter() {
+                if (i < textToType.length) {
+                    dText.innerHTML += textToType.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                } else {
+                    isTyping = false;
+                    btn.style.display = "block"; // Munculkan tombol lagi
+                    currentStage++; 
+                    
+                    // Ganti label nama tombol di akhir babak
+                    if (currentStage === stages.length) {
+                        btn.innerHTML = "Selesaikan Simulasi ➔";
+                    } else {
+                        btn.innerHTML = "Lanjut ➔";
+                    }
+                }
+            }
+            // Tunda sedikit ngetik teks biar objek animasinya jalan dulu
+            setTimeout(typeWriter, 500); 
+        }
+
+        // Fungsi menampilkan layar tamat simulasi
+        function showEndScreen() {
+            const dTitle = document.getElementById("d-title");
+            const dText = document.getElementById("d-text");
+            const nextBtn = document.getElementById("next-btn");
+            const restartBtn = document.getElementById("restart-btn");
+            const exitBtn = document.getElementById("exit-btn");
+            const playerItem = document.getElementById("player-item");
+
+            playerItem.style.opacity = 0; 
+            nextBtn.style.display = "none";
+            dText.innerHTML = "";
+            dTitle.innerHTML = "🏆 SIMULASI SELESAI 🏆";
+            dTitle.style.color = "#f59e0b"; // Warna Emas modern
+
+            isTyping = true;
+            let i = 0;
+            const finalText = "Selamat! Kamu telah berhasil menguasai seluruh alur produksi dan distribusi AMDK di PT Tirta Sukses Perkasa. Kerja yang sangat bagus!";
+            
+            function typeFinal() {
+                if (i < finalText.length) {
+                    dText.innerHTML += finalText.charAt(i);
+                    i++;
+                    setTimeout(typeFinal, 30);
+                } else {
+                    isTyping = false;
+                    restartBtn.style.display = "block";
+                    exitBtn.style.display = "block";
+                }
+            }
+            typeFinal();
+        }
+
+        // Fungsi untuk reset setelan permainan kembali ke awal mula
+        function resetGame() {
+            currentStage = 0; 
+            const playerItem = document.getElementById("player-item");
+            const ground = document.getElementById("ground");
+            const belt = document.getElementById("moving-belt");
+            
+            playerItem.style.transition = "none"; 
+            playerItem.style.left = "-20%"; 
+            playerItem.style.opacity = 1;
+            playerItem.innerHTML = "";
+
+            setTimeout(() => { playerItem.style.transition = "left 1.5s ease-in-out, opacity 0.5s"; }, 50);
+
+            document.getElementById("d-title").innerHTML = "SYSTEM PABRIK";
+            document.getElementById("d-title").style.color = "#38bdf8";
+            document.getElementById("d-text").innerHTML = "Sistem telah di-reset. Tekan 'Mulai Produksi' untuk menjalankan simulasi kembali.";
+            
+            document.getElementById("next-btn").style.display = "block";
+            document.getElementById("next-btn").innerHTML = "Mulai Produksi ➔";
+            document.getElementById("restart-btn").style.display = "none";
+            document.getElementById("exit-btn").style.display = "none";
+            
+            document.querySelectorAll('.bg-element').forEach(el => el.style.opacity = 0);
+            document.getElementById('bg-mountain').style.opacity = 1;
+            document.getElementById('scene-bg').style.background = "linear-gradient(to bottom, #bae6fd, #e0f2fe)";
+            ground.style.borderTopColor = "#22c55e";
+            belt.style.background = "repeating-linear-gradient(90deg, transparent, transparent 30px, #22c55e 30px, #22c55e 50px)";
+        }
+    </script>
+</body>
+</html>
