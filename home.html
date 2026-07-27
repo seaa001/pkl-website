@@ -8,6 +8,7 @@
 </head>
 <body>
 
+    <!-- Navigasi Utama -->
     <nav class="navbar">
         <div class="logo">Tirta Sukses Perkasa</div>
         
@@ -19,21 +20,68 @@
 
         <ul class="nav-links" id="nav-menu">
             <li><a href="home.html" class="active">Beranda</a></li>
-            <li><a href="tentang.html">Tentang Kami</a></li>
-            <li><a href="produk.html">Produk</a></li>
             <li><a href="kontak.html">Kontak</a></li>
         </ul>
     </nav>
 
-    <!-- Bagian Banner Utama (Gambar Saja, Full Width) -->
-    <header class="main-hero">
-        <img src="tspclub.png" alt="Banner PT Tirta Sukses Perkasa">
+    <!-- Banner Header -->
+    <header class="hero">
+        <h1>PT Tirta Sukses Perkasa</h1>
+        <p>Plant Pasuruan — Air Minum Dalam Kemasan (AMDK) Berkualitas</p>
     </header>
 
+    <!-- Konten Utama -->
+    <main class="main-container">
+        
+        <!-- Foto TSP Club (Di Atas Tentang Kami) -->
+        <div class="image-banner">
+            <img src="tspclub.png" alt="PT Tirta Sukses Perkasa Club">
+        </div>
+
+        <!-- Bagian Tentang Kami -->
+        <section class="section-box">
+            <h2 class="section-title">Tentang Kami</h2>
+            <p class="about-text">
+                <strong>PT Tirta Sukses Perkasa (Plant Pasuruan)</strong> adalah perusahaan yang bergerak di bidang produksi Air Minum Dalam Kemasan (AMDK). Kami berdedikasi untuk menyediakan air minum yang bersih, sehat, dan menyegarkan bagi seluruh masyarakat Indonesia. Dengan pabrik yang didukung teknologi modern dan proses higienis, kami terus menjaga kualitas terbaik di setiap tetes air yang kami produksi.
+            </p>
+        </section>
+
+        <!-- Bagian Produk Kami -->
+        <section class="section-box">
+            <h2 class="section-title">Produk Kami</h2>
+            <p class="about-text">
+                Kami menghadirkan berbagai varian kemasan air mineral berkualitas tinggi untuk memenuhi berbagai kebutuhan konsumsi Anda:
+            </p>
+
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-icon">🥤</div>
+                    <h3>Kemasan Gelas (Cup)</h3>
+                    <p><strong>Ukuran 220 ml:</strong> Sangat praktis untuk kebutuhan hidrasi pada acara keluarga, rapat, dan katering.</p>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">🍾</div>
+                    <h3>Kemasan Botol</h3>
+                    <p><strong>Ukuran 330 ml & 600 ml:</strong> Ideal dan mudah dibawa bepergian, berolahraga, maupun aktivitas sehari-hari.</p>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon">🚰</div>
+                    <h3>Kemasan Galon</h3>
+                    <p><strong>Ukuran 19 Liter:</strong> Pilihan utama higienis untuk konsumsi air minum keluarga di rumah atau operasional kantor.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
     <footer>
         &copy; 2026 PT Tirta Sukses Perkasa - Plant Pasuruan. Project Akhir PKL.
     </footer>
 
+    <!-- Script Hamburger Menu -->
     <script>
         const mobileMenu = document.getElementById('mobile-menu');
         const navMenu = document.getElementById('nav-menu');
