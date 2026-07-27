@@ -121,7 +121,7 @@
             color: white;
             text-align: center;
             padding: 40px 20px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .page-header h1 {
@@ -134,42 +134,62 @@
             opacity: 0.9;
         }
 
+        /* PENGATURAN KOTAK MENYEBAR (GRID) */
         .contact-container {
-            max-width: 800px;
+            width: 100%;
+            max-width: 1200px; /* Diperlebar agar bisa ke samping di layar PC */
             margin: 0 auto 60px auto;
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Membagi jadi 3 kolom sama besar */
+            gap: 30px; /* Jarak antar kotak */
         }
 
         .contact-card {
             background-color: #ffffff;
-            padding: 40px;
+            padding: 40px 30px;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             border-top: 5px solid #0096c7;
             text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .contact-item {
-            margin-bottom: 25px;
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
 
-        .contact-item:last-child {
-            margin-bottom: 0;
+        .icon-symbol {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
         }
 
-        .contact-item h2 {
+        .contact-card h2 {
             color: #023e8a;
             font-size: 1.4rem;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            width: 100%;
         }
 
-        .contact-item p {
+        .contact-card p {
             color: #555;
             font-size: 1.05rem;
             line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        /* PENGATURAN KHUSUS HP UNTUK KOTAK KONTAK */
+        @media (max-width: 850px) {
+            .contact-container {
+                grid-template-columns: 1fr; /* Di layar kecil, berubah jadi 1 kolom (berbaris ke bawah) */
+                max-width: 500px;
+            }
         }
 
         /* --- CATATAN KAKI BAWAH (FOOTER) --- */
@@ -206,29 +226,51 @@
     <!-- Judul Halaman Kontak -->
     <header class="page-header">
         <h1>Hubungi Kami</h1>
-        <p>Kami siap membantu menjawab pertanyaan Anda seputar produk dan layanan.</p>
+        <p>Informasi lokasi dan kontak PT Tirta Sukses Perkasa Plant Pasuruan</p>
     </header>
 
-    <!-- Isi Konten Kontak -->
+    <!-- Isi Konten Kontak (Disebar jadi 3 Kotak) -->
     <main class="contact-container">
+        
+        <!-- Kotak 1: Alamat -->
         <div class="contact-card">
-            
-            <div class="contact-item">
-                <h2>Alamat Pabrik (Plant Pasuruan)</h2>
-                <p>PT Tirta Sukses Perkasa<br>Pasuruan, Jawa Timur, Indonesia</p>
-            </div>
-
-            <div class="contact-item">
-                <h2>Email</h2>
-                <p>info@tirtasuksesperkasa.co.id</p>
-            </div>
-
-            <div class="contact-item">
-                <h2>Jam Operasional</h2>
-                <p>Senin - Jumat: 08.00 - 16.00 WIB<br>Sabtu - Minggu: Tutup</p>
-            </div>
-
+            <div class="icon-symbol">📍</div>
+            <h2>Alamat Pabrik</h2>
+            <p>
+                Jl. Surabaya - Malang Km.53<br>
+                Desa Lemahbang<br>
+                Pasuruan, Jawa Timur
+            </p>
         </div>
+
+        <!-- Kotak 2: Telepon & Email -->
+        <div class="contact-card">
+            <div class="icon-symbol">📞</div>
+            <h2>Kontak Layanan</h2>
+            <p>
+                <strong>Telepon:</strong><br>
+                (0343) 633722
+            </p>
+            <p>
+                <strong>Email:</strong><br>
+                info@tirtasuksesperkasa.co.id
+            </p>
+        </div>
+
+        <!-- Kotak 3: Jam Operasional -->
+        <div class="contact-card">
+            <div class="icon-symbol">🕒</div>
+            <h2>Jam Operasional</h2>
+            <p>
+                <strong>Senin - Jumat:</strong><br>
+                08.00 - 16.00 WIB
+            </p>
+            <p>
+                <strong>Sabtu - Minggu:</strong><br>
+                Tutup (Libur)
+            </p>
+        </div>
+
     </main>
 
     <!-- Footer -->
