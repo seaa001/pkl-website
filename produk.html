@@ -2,63 +2,289 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Produk - PT Tirta Sukses Perkasa</title>
     
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <style>
+        /* =========================================
+           BAGIAN CSS (Tukang Rias Tampilan Web)
+           ========================================= */
 
+        * {
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+        }
+
+        body {
+            background-color: #f8f9fa; 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        /* --- BAGIAN NAVIGASI ATAS (NAVBAR) --- */
+        .navbar {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 1rem 5%; 
+            background: #ffffff; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+        }
+
+        .navbar .logo {
+            color: #0077b6; 
+            font-weight: 800; 
+            font-size: 1.5rem; 
+            letter-spacing: 1px; 
+        }
+
+        .nav-links {
+            list-style: none; 
+            display: flex; 
+            gap: 25px; 
+            transition: all 0.3s ease; 
+        }
+
+        .nav-links li a {
+            text-decoration: none; 
+            color: #555;
+            font-weight: 600; 
+            transition: color 0.3s; 
+        }
+
+        /* Menu Produk yang aktif akan berwarna biru */
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            color: #0077b6; 
+        }
+
+        /* --- TOMBOL HAMBURGER (Menu 3 Garis Buat di HP) --- */
+        .menu-toggle {
+            display: none; 
+            flex-direction: column; 
+            cursor: pointer; 
+            gap: 5px; 
+        }
+
+        .menu-toggle .bar {
+            width: 25px; 
+            height: 3px; 
+            background-color: #0077b6; 
+            transition: all 0.3s ease-in-out; 
+            border-radius: 5px; 
+        }
+
+        /* --- TAMPILAN KHUSUS RESPONSIVE (HP & TABLET) --- */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex; 
+            }
+
+            .nav-links {
+                position: absolute; 
+                top: 100%; 
+                left: 0;
+                width: 100%; 
+                background: #ffffff;
+                flex-direction: column; 
+                align-items: center; 
+                padding: 0;
+                max-height: 0; 
+                overflow: hidden; 
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                padding: 20px 0; 
+                max-height: 300px; 
+            }
+
+            .nav-links li {
+                margin: 10px 0; 
+            }
+
+            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; } 
+            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); } 
+            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); } 
+        }
+
+        /* --- HALAMAN PRODUK --- */
+        .page-header {
+            background: linear-gradient(135deg, #023e8a, #0077b6);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Pembungkus daftar produk */
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 0 5%;
+            margin-bottom: 60px;
+        }
+
+        /* Desain kartu untuk masing-masing produk */
+        .product-card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 350px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 30px;
+            border-top: 5px solid #0096c7; /* Garis biru di atas kartu */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-title {
+            color: #023e8a;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        /* Teks detail ukuran (dibuat bold agar menonjol) */
+        .product-size {
+            font-weight: 700;
+            color: #444;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .product-desc {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Khusus untuk daftar ukuran di bagian botol */
+        .product-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 10px;
+        }
+
+        .product-list li {
+            margin-bottom: 12px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .product-list li strong {
+            color: #0077b6; /* Angka ukuran di-highlight biru */
+        }
+
+        /* --- CATATAN KAKI BAWAH (FOOTER) --- */
+        footer {
+            background-color: #222; 
+            color: #aaa; 
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 0.9rem;
+            margin-top: auto; 
+        }
+    </style>
+</head>
 <body>
+
+    <!-- Navigasi -->
     <nav class="navbar">
         <div class="logo">Tirta Sukses Perkasa</div>
         
-        <ul class="nav-links">
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <ul class="nav-links" id="nav-menu">
             <li><a href="home.html">Beranda</a></li>
             <li><a href="tentang.html">Tentang Kami</a></li>
-            <li><a href="produk.html" class="active">Produk</a></li>
+            <li><a href="produk.html" class="active">Produk</a></li> <!-- Tambahan class active di Produk -->
             <li><a href="kontak.html">Kontak</a></li>
         </ul>
     </nav>
 
+    <!-- Judul Halaman Produk -->
     <header class="page-header">
         <h1>Produk Kami</h1>
-        <p>Varian kemasan Air Minum Dalam Kemasan (AMDK) berkualitas</p>
+        <p>Air mineral berkualitas tinggi untuk berbagai kebutuhan Anda.</p>
     </header>
 
-    <section class="main-content">
+    <!-- Daftar Produk -->
+    <main class="products-container">
         
-        <div class="product-grid">
-            
-            <div class="product-card">
-                <div class="product-icon">💧</div> <h3>Kemasan Gelas (Cup)</h3> <p><strong>Ukuran 220 ml</strong></p> <p>Sangat cocok untuk memenuhi kebutuhan hidrasi pada acara keluarga, pertemuan, dan katering.</p>
-            </div>
-
-            <div class="product-card">
-                <div class="product-icon">🍾</div>
-                <h3>Kemasan Botol</h3>
-                
-                <ul class="product-list">
-                    <li><strong>330 ml:</strong> Cocok untuk konsumsi praktis.</li>
-                    <li><strong>600 ml:</strong> Sangat ideal untuk dibawa bepergian atau aktivitas sehari-hari.</li>
-                    <li><strong>1500 ml:</strong> Pilihan tepat untuk persediaan hidrasi selama perjalanan.</li>
-                </ul>
-            </div>
-
-            <div class="product-card">
-                <div class="product-icon">🚰</div>
-                <h3>Kemasan Galon</h3>
-                <p><strong>Ukuran 15 Liter & 19 Liter</strong></p>
-                <p>Pilihan terbaik untuk memenuhi kebutuhan minum sehari-hari di rumah tangga maupun perkantoran.</p>
-            </div>
-
+        <!-- Kartu 1: Cup -->
+        <div class="product-card">
+            <h2 class="product-title">Kemasan Gelas (Cup)</h2>
+            <span class="product-size">Ukuran 220 ml</span>
+            <p class="product-desc">
+                Sangat cocok untuk memenuhi kebutuhan hidrasi pada acara keluarga, pertemuan, dan katering.
+            </p>
         </div>
-    </section>
 
-    <footer class="footer">
-        <p>&copy; 2026 PT Tirta Sukses Perkasa - Plant Pasuruan. Project Akhir PKL.</p>
+        <!-- Kartu 2: Botol -->
+        <div class="product-card">
+            <h2 class="product-title">Kemasan Botol</h2>
+            <ul class="product-list">
+                <li><strong>330 ml:</strong> Cocok untuk konsumsi praktis.</li>
+                <li><strong>600 ml:</strong> Sangat ideal untuk dibawa bepergian atau aktivitas sehari-hari.</li>
+                <li><strong>1500 ml:</strong> Pilihan tepat untuk persediaan hidrasi selama perjalanan.</li>
+            </ul>
+        </div>
+
+        <!-- Kartu 3: Galon -->
+        <div class="product-card">
+            <h2 class="product-title">Kemasan Galon</h2>
+            <span class="product-size">Ukuran 15 Liter & 19 Liter</span>
+            <p class="product-desc">
+                Pilihan terbaik untuk memenuhi kebutuhan minum sehari-hari di rumah tangga maupun perkantoran.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 PT Tirta Sukses Perkasa - Plant Pasuruan. Project Akhir PKL.
     </footer>
+
+    <!-- Script Hamburger Menu -->
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-active');
+            navMenu.classList.toggle('active');
+        });
+    </script>
 
 </body>
 </html>

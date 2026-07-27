@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Simulasi RPG Pabrik AMDK - Modern Version</title>
     
     <style>
@@ -10,7 +10,6 @@
            BAGIAN CSS: Tampilan dirombak biar modern & estetik (Clean UI)
            ========================================================== */
 
-        /* Reset dasar biar jarak bawaan browser hilang */
         * {
             margin: 0;
             padding: 0;
@@ -18,36 +17,32 @@
         }
 
         body {
-            /* Ganti font ke Sans-Serif modern biar teksnya rapi dan nggak kaku */
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #0b0f19; /* Latar belakang hitam kebiruan mewah */
+            background-color: #0b0f19;
             color: #f8fafc;
             width: 100vw;
             height: 100vh;
+            height: 100dvh; /* Adaptasi khusus untuk browser mobile (Safari/Chrome HP) */
             overflow: hidden; 
             display: flex;
             flex-direction: column;
         }
 
-        /* Kotak game utama pas 1 layar */
         .game-screen {
             width: 100%;
             height: 100%;
-            position: relative;
             display: flex;
             flex-direction: column;
         }
 
-        /* Layar atas tempat animasi objek gambar */
         .game-scene {
             flex: 1; 
             position: relative;
-            background: linear-gradient(to bottom, #bae6fd, #e0f2fe); /* Warna langit gradasi estetik */
-            transition: background 1s ease; /* Transisi warna background biar smooth */
+            background: linear-gradient(to bottom, #bae6fd, #e0f2fe);
+            transition: background 1s ease;
             overflow: hidden;
         }
 
-        /* Pengaturan elemen background belakang (gunung/pabrik) */
         .bg-element {
             position: absolute;
             width: 100%;
@@ -58,87 +53,83 @@
             transition: opacity 1s ease;
         }
         
-        /* Awal mula cuma gunung yang kelihatan */
         #bg-mountain { opacity: 1; }
 
-        /* Sabuk berjalan modern (Rel mesin) */
         .ground-layer {
             position: absolute;
             bottom: 0;
             width: 100%;
             height: 70px; 
-            background: #0f172a; /* Warna abu-abu gelap metalik */
-            border-top: 4px solid #22c55e; /* Garis pembatas warna hijau neon di awal */
+            background: #0f172a;
+            border-top: 4px solid #22c55e;
             overflow: hidden;
             transition: all 1s ease;
         }
 
-        /* Garis putus-putus minimalis di sabuk berjalan */
         .moving-lines {
             width: 200%;
             height: 100%;
             background: repeating-linear-gradient(90deg, transparent, transparent 30px, #22c55e 30px, #22c55e 50px);
-            opacity: 0.3; /* Dibikin agak transparan biar estetik */
-            animation: moveConveyor 1s linear infinite; /* Gerak tanpa henti */
+            opacity: 0.3;
+            animation: moveConveyor 1s linear infinite;
         }
 
-        /* Animasi jalannya garis sabuk */
         @keyframes moveConveyor {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50px); }
         }
 
-        /* Karakter/Item game yang bakal muncul di tengah rel */
         .game-object {
             position: absolute;
             bottom: 70px; 
-            left: -20%; /* Sembunyi di kiri luar layar */
+            left: -20%;
             width: 140px; 
             height: 140px;
             display: flex;
             justify-content: center;
             align-items: flex-end;
-            transition: left 1.5s ease-in-out, opacity 0.5s; /* Efek meluncur ke kanan */
+            transition: left 1.5s ease-in-out, opacity 0.5s;
             z-index: 10;
-            animation: floatObject 1.2s infinite alternate ease-in-out; /* Animasi melayang naik-turun alus */
+            animation: floatObject 1.2s infinite alternate ease-in-out;
         }
 
-        /* Efek melayang objek biar kelihatan hidup */
         @keyframes floatObject {
             from { transform: translateY(0); }
             to { transform: translateY(-8px); } 
         }
 
-        /* MODERNDIALOG BOX: Desain ala panel kaca transparan (Glassmorphism) */
+        /* === PERBAIKAN RESPONSIVE BOX DI SINI === */
         .rpg-dialog {
-            height: 200px; 
-            background: rgba(15, 23, 42, 0.9); /* Transparan gelap */
-            backdrop-filter: blur(12px); /* Efek blur di belakang kotak dialog */
+            /* Hapus fixed height, ganti dengan auto agar teks bebas bernapas */
+            min-height: 180px; 
+            height: auto; 
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1); /* Garis batas tipis putih transparan */
-            padding: 25px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 30px; /* Padding disesuaikan */
+            display: flex;
+            flex-direction: column; /* Tata letak atas-bawah */
             position: relative;
         }
 
-        /* Judul Stage / Level */
         .dialog-title {
-            color: #38bdf8; /* Biru muda neon kekinian */
-            font-size: 1.2rem;
+            color: #38bdf8;
+            font-size: 1.1rem;
             font-weight: 800;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
 
-        /* Teks Penjelasan di Kotak Dialog */
         .dialog-text {
-            color: #cbd5e1; /* Warna putih soft abu-abu biar adem di mata */
-            font-size: 1.05rem;
-            line-height: 1.6;
-            min-height: 60px;
+            color: #cbd5e1;
+            font-size: 1rem;
+            line-height: 1.5;
+            flex-grow: 1; /* Biar area teks mengisi ruang yang ada */
+            margin-bottom: 15px; /* Jarak antara teks dan tombol */
         }
 
-        /* Kursor kedip komputer modern */
         .blink-cursor {
             color: #38bdf8;
             font-weight: bold;
@@ -146,47 +137,67 @@
         }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Wadah Tombol Aksi */
+        /* Wadah Tombol Aksi - Tidak lagi absolute */
         .action-buttons {
-            position: absolute;
-            bottom: 25px;
-            right: 40px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
+            justify-content: flex-end; /* Tombol rata kanan */
+            flex-wrap: wrap; /* Kalau layar sempit, tombol otomatis turun ke bawah */
         }
 
-        /* Tombol Modern (Membulat, borderless, ada gradasi warna) */
         .btn-action, .btn-exit {
-            background: linear-gradient(135deg, #0284c7, #0369a1); /* Gradasi biru mewah */
+            background: linear-gradient(135deg, #0284c7, #0369a1);
             color: #fff;
             border: none;
-            padding: 10px 22px;
-            font-size: 0.95rem;
+            padding: 10px 20px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            border-radius: 10px; /* Sudut melengkung halus */
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3); /* Efek bayangan tombol bercahaya */
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
             transition: all 0.2s ease;
             display: none; 
         }
 
-        /* Efek melayang saat tombol disentuh mouse */
         .btn-action:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5);
-            filter: brightness(1.1);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.5);
         }
 
-        /* Tombol Keluar (Warna gradasi merah modern) */
         .btn-exit {
             background: linear-gradient(135deg, #ef4444, #b91c1c);
-            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         .btn-exit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
-            filter: brightness(1.1);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.5);
+        }
+
+        /* === MEDIA QUERY KHUSUS HP (MOBILE COMPACT) === */
+        @media (max-width: 600px) {
+            .rpg-dialog {
+                padding: 15px 20px; /* Kurangi padding di HP */
+                min-height: auto;
+            }
+            .dialog-title {
+                font-size: 1rem;
+            }
+            .dialog-text {
+                font-size: 0.9rem; /* Ukuran teks sedikit dikecilkan */
+            }
+            .game-object {
+                width: 100px; /* Objek gambar diperkecil agar proporsional */
+                height: 100px;
+            }
+            .action-buttons {
+                justify-content: stretch; /* Tombol melebar */
+            }
+            .btn-action, .btn-exit {
+                width: 100%; /* Tombol jadi full lebar di HP agar gampang dipencet */
+                padding: 12px;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -196,8 +207,6 @@
         
         <!-- Layar Utama Simulasi -->
         <div class="game-scene" id="scene-bg">
-            
-            <!-- Elemen Gambar Latar Belakang (Menggunakan gradasi CSS flat design modern) -->
             <div class="bg-element" id="bg-mountain" style="background: radial-gradient(circle at 50% 120%, #4ade80, #16a34a 55%, transparent 56%);"></div>
             <div class="bg-element" id="bg-factory" style="background: linear-gradient(90deg, #64748b 2px, transparent 2px) 0 0/40px 100%, #475569;"></div>
             <div class="bg-element" id="bg-warehouse" style="background: linear-gradient(90deg, #fb923c 4px, transparent 4px) 0 0/80px 100%, #ea580c;"></div>
@@ -228,11 +237,8 @@
 
     </div>
 
-    <!-- ==========================================================
-       BAGIAN JAVASCRIPT: Logikanya tetep ringkas dan mudah dibaca
-       ========================================================== -->
+    <!-- SCRIPT JS SAMA SEPERTI SEBELUMNYA -->
     <script>
-        // Kumpulan Gambar Objek berbentuk kode vektor SVG agar gambarnya jernih
         const svgWater = `<svg width="100%" height="100%" viewBox="0 0 24 24"><path fill="#38bdf8" d="M12,20a6,6 0 0,1 -6,-6c0,-4 6,-10 6,-10c0,0 6,6 6,10a6,6 0 0,1 -6,6Z"/></svg>`;
         const svgCleanWater = `<svg width="100%" height="100%" viewBox="0 0 24 24"><path fill="#22d3ee" d="M12,20a6,6 0 0,1 -6,-6c0,-4 6,-10 6,-10c0,0 6,6 6,10a6,6 0 0,1 -6,6Z"/><circle cx="12" cy="14" r="2" fill="#fff"/></svg>`;
         const svgEmptyBottle = `<svg width="100%" height="100%" viewBox="0 0 24 24"><path fill="rgba(255,255,255,0.3)" stroke="#fff" stroke-width="1.5" d="M9,8 L9,4 L10,4 L10,2 L14,2 L14,4 L15,4 L15,8 L18,10 L18,22 L6,22 L6,10 Z"/></svg>`;
@@ -240,61 +246,47 @@
         const svgBox = `<svg width="100%" height="100%" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="16" fill="#ea580c"/><rect x="2" y="6" width="20" height="4" fill="#fb923c"/><line x1="12" y1="6" x2="12" y2="22" stroke="#c2410c" stroke-width="2"/></svg>`;
         const svgTruck = `<svg width="100%" height="100%" viewBox="0 0 24 24"><rect x="1" y="6" width="15" height="12" fill="#f1f5f9" stroke="#334155" stroke-width="1"/><rect x="16" y="10" width="7" height="8" fill="#ef4444"/><circle cx="5" cy="19" r="3" fill="#1e293b"/><circle cx="19" cy="19" r="3" fill="#1e293b"/></svg>`;
 
-        // Array Kotak Penampung Skenario Level Game
         const stages = [
             {
                 title: "1. SUMBER AIR BAKU",
                 text: "Memompa air dari mata air pegunungan dalam (Deep Well). Air dialirkan via pipa food-grade ke pabrik.",
-                svg: svgWater,
-                pos: "10%",
-                bg: "mountain"
+                svg: svgWater, pos: "10%", bg: "mountain"
             },
             {
                 title: "2. WATER TREATMENT PLANT (WTP)",
                 text: "Proses filtrasi Karbon Aktif & Reverse Osmosis. Air disterilkan dengan Ozon (O3) untuk membunuh bakteri.",
-                svg: svgCleanWater,
-                pos: "25%",
-                bg: "factory"
+                svg: svgCleanWater, pos: "25%", bg: "factory"
             },
             {
                 title: "3. PEMBUATAN KEMASAN",
                 text: "Biji plastik PET dipanaskan & dicetak. Botol dicuci bersih secara otomatis menggunakan air steril.",
-                svg: svgEmptyBottle,
-                pos: "45%",
-                bg: "factory"
+                svg: svgEmptyBottle, pos: "45%", bg: "factory"
             },
             {
                 title: "4. FILLING & CAPPING",
                 text: "Air dimasukkan ke botol di ruangan hampa udara, lalu disegel rapat agar kualitas tetap terjaga.",
-                svg: svgFilledBottle,
-                pos: "65%",
-                bg: "factory"
+                svg: svgFilledBottle, pos: "65%", bg: "factory"
             },
             {
                 title: "5. PENGEMASAN & KARANTINA",
                 text: "Botol diberi label dan dimasukkan ke karton. Disimpan sementara untuk pengecekan standar Mutu (QC) & SNI.",
-                svg: svgBox,
-                pos: "75%",
-                bg: "warehouse"
+                svg: svgBox, pos: "75%", bg: "warehouse"
             },
             {
                 title: "6. DISTRIBUSI",
                 text: "Produk lolos uji diangkut ke truk logistik. Siap dikirim ke distributor, supermarket, hingga konsumen!",
-                svg: svgTruck,
-                pos: "120%", 
-                bg: "warehouse"
+                svg: svgTruck, pos: "120%", bg: "warehouse"
             }
         ];
 
-        let currentStage = 0; // Penunjuk level saat ini
-        let isTyping = false; // Status efek ngetik teks
+        let currentStage = 0; 
+        let isTyping = false; 
 
-        // Fungsi utama saat menekan tombol Lanjut / Mulai
         function playNextStage() {
-            if (isTyping) return; // Kunci tombol kalau teks belum kelar ngetik
+            if (isTyping) return; 
 
             if (currentStage >= stages.length) {
-                showEndScreen(); // Panggil layar tamat jika sudah level terakhir
+                showEndScreen(); 
                 return;
             }
 
@@ -307,41 +299,37 @@
             const belt = document.getElementById("moving-belt");
             const ground = document.getElementById("ground");
 
-            // Sembunyikan tombol sementara agar fokus ke teks jalan
             btn.style.display = "none";
             dText.innerHTML = "";
             dTitle.innerHTML = data.title;
 
-            // Logika Ganti Latar & Warna Neon Sabuk sesuai Tema Stage secara Modern
             document.querySelectorAll('.bg-element').forEach(el => el.style.opacity = 0);
             
             if(data.bg === 'mountain') {
                 document.getElementById('bg-mountain').style.opacity = 1;
                 document.getElementById('scene-bg').style.background = "linear-gradient(to bottom, #bae6fd, #e0f2fe)"; 
-                ground.style.borderTopColor = "#22c55e"; // Rel Hijau Neon
+                ground.style.borderTopColor = "#22c55e"; 
                 belt.style.background = "repeating-linear-gradient(90deg, transparent, transparent 30px, #22c55e 30px, #22c55e 50px)";
             } else if (data.bg === 'factory') {
                 document.getElementById('bg-factory').style.opacity = 1;
                 document.getElementById('scene-bg').style.background = "linear-gradient(to bottom, #1e293b, #0f172a)"; 
-                ground.style.borderTopColor = "#38bdf8"; // Rel Biru Neon
+                ground.style.borderTopColor = "#38bdf8"; 
                 belt.style.background = "repeating-linear-gradient(90deg, transparent, transparent 30px, #38bdf8 30px, #38bdf8 50px)";
             } else if (data.bg === 'warehouse') {
                 document.getElementById('bg-warehouse').style.opacity = 1;
                 document.getElementById('scene-bg').style.background = "linear-gradient(to bottom, #334155, #1e293b)"; 
-                ground.style.borderTopColor = "#f97316"; // Rel Oranye Neon
+                ground.style.borderTopColor = "#f97316"; 
                 belt.style.background = "repeating-linear-gradient(90deg, transparent, transparent 30px, #f97316 30px, #f97316 50px)";
             }
 
-            // Memunculkan objek gambar di atas rel
             playerItem.style.opacity = 1;
             playerItem.innerHTML = data.svg;
             playerItem.style.left = data.pos;
 
-            // Efek Mesin Ketik Huruf per Huruf
             isTyping = true;
             let i = 0;
             const textToType = data.text;
-            const speed = 30; // Kecepatan ngetik (milidetik)
+            const speed = 30; 
             
             function typeWriter() {
                 if (i < textToType.length) {
@@ -350,10 +338,9 @@
                     setTimeout(typeWriter, speed);
                 } else {
                     isTyping = false;
-                    btn.style.display = "block"; // Munculkan tombol lagi
+                    btn.style.display = "block"; 
                     currentStage++; 
                     
-                    // Ganti label nama tombol di akhir babak
                     if (currentStage === stages.length) {
                         btn.innerHTML = "Selesaikan Simulasi ➔";
                     } else {
@@ -361,11 +348,9 @@
                     }
                 }
             }
-            // Tunda sedikit ngetik teks biar objek animasinya jalan dulu
             setTimeout(typeWriter, 500); 
         }
 
-        // Fungsi menampilkan layar tamat simulasi
         function showEndScreen() {
             const dTitle = document.getElementById("d-title");
             const dText = document.getElementById("d-text");
@@ -378,7 +363,7 @@
             nextBtn.style.display = "none";
             dText.innerHTML = "";
             dTitle.innerHTML = "🏆 SIMULASI SELESAI 🏆";
-            dTitle.style.color = "#f59e0b"; // Warna Emas modern
+            dTitle.style.color = "#f59e0b"; 
 
             isTyping = true;
             let i = 0;
@@ -398,7 +383,6 @@
             typeFinal();
         }
 
-        // Fungsi untuk reset setelan permainan kembali ke awal mula
         function resetGame() {
             currentStage = 0; 
             const playerItem = document.getElementById("player-item");

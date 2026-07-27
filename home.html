@@ -2,201 +2,167 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Beranda - PT Tirta Sukses Perkasa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Beranda - PT Tirta Sukses Perkasa</title>
     
     <style>
         /* =========================================
            BAGIAN CSS (Tukang Rias Tampilan Web)
            ========================================= */
 
-        /* --- PENGATURAN DASAR --- */
-        /* Tanda bintang (*) ini artinya pengaturan berlaku untuk SEMUA elemen di web kamu */
         * {
-            margin: 0; /* Menghapus jarak luar bawaan dari browser */
-            padding: 0; /* Menghapus jarak dalam bawaan dari browser */
-            box-sizing: border-box; /* Biar ukuran kotak ngga membesar sendiri waktu dikasih padding */
-            font-family: 'Segoe UI', Tahoma, sans-serif; /* Jenis gaya huruf yang kita pakai */
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
         }
 
-        /* Pengaturan untuk seluruh layar halaman web (body) */
         body {
-            background-color: #f8f9fa; /* Warna latar belakang abu-abu sangat muda/terang */
-            color: #333; /* Warna teks jadi abu-abu gelap (mendekati hitam) */
-            display: flex; /* Bikin isi halamannya gampang diatur posisinya */
-            flex-direction: column; /* Mengatur isi halamannya ngantri dari atas ke bawah */
-            min-height: 100vh; /* Memastikan halamannya minimal setinggi 100% layar HP/Laptop. Berguna biar footer tetep nempel di bawah! */
+            background-color: #f8f9fa; 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
         }
 
         /* --- BAGIAN NAVIGASI ATAS (NAVBAR) --- */
         .navbar {
             display: flex; 
-            justify-content: space-between; /* Misahin Logo (ke kiri mentok) dan Menu (ke kanan mentok) */
-            align-items: center; /* Posisikan tulisan biar pas di tengah secara vertikal (atas-bawah) */
-            padding: 1rem 5%; /* Jarak lega di dalam navbar: atas-bawah dikit, kiri-kanan lumayan lebar (5%) */
-            background: #ffffff; /* Latar navbarnya putih bersih */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Kasih efek bayangan tipis di bawah navbar biar kelihatan kayak melayang */
-            position: sticky; /* Ajaibnya 'sticky' ini: navbar bakal nempel terus di atas layar walau kita scroll halamannya ke bawah */
-            top: 0; /* Jarak nempelnya 0 dari atap layar */
-            z-index: 100; /* Bikin lapisan navbar selalu di urutan paling depan biar nggak ketutupan gambar lain */
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 1rem 5%; 
+            background: #ffffff; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
         }
 
-        /* Tampilan Tulisan Logo di Navbar */
         .navbar .logo {
-            color: #0077b6; /* Kasih warna biru pabrik */
-            font-weight: 800; /* Tulisannya dicetak super tebal */
-            font-size: 1.5rem; /* Ukurannya dibesarin dikit */
-            letter-spacing: 1px; /* Kasih jarak antar hurufnya biar lega */
+            color: #0077b6; 
+            font-weight: 800; 
+            font-size: 1.5rem; 
+            letter-spacing: 1px; 
         }
 
-        /* Daftar Menu-Menu (Beranda, Tentang, dll) */
         .nav-links {
-            list-style: none; /* Hilangin titik-titik (bullet) jelek bawaan bawaan HTML */
-            display: flex; /* Jajarkan menu ke samping */
-            gap: 25px; /* Jarak antar menunya 25 pixel */
-            transition: all 0.3s ease; /* Bikin efek pas berubah warna terasa mulus (nggak kaget) */
+            list-style: none; 
+            display: flex; 
+            gap: 25px; 
+            transition: all 0.3s ease; 
         }
 
-        /* Tampilan Teks Link di Menu */
         .nav-links li a {
-            text-decoration: none; /* Hilangin garis bawah di link-nya */
+            text-decoration: none; 
             color: #555;
             font-weight: 600; 
-            transition: color 0.3s; /* Pas disentuh mouse, ganti warnanya bakal smooth 0.3 detik */
+            transition: color 0.3s; 
         }
 
-        /* Efek pas menu disentuh mouse (hover) atau saat halamannya lagi dibuka (active) */
         .nav-links li a:hover,
         .nav-links li a.active {
-            color: #0077b6; /* Teks berubah biru */
+            color: #0077b6; 
         }
 
         /* --- TOMBOL HAMBURGER (Menu 3 Garis Buat di HP) --- */
         .menu-toggle {
-            display: none; /* Kita sembunyikan dulu kalau web dibuka di laptop/PC layarnya gede */
-            flex-direction: column; /* Garisnya disusun numpuk ke bawah */
-            cursor: pointer; /* Kursor mouse berubah jadi ikon telunjuk pas nyentuh tombol ini */
-            gap: 5px; /* Jarak antar 3 garisnya */
+            display: none; 
+            flex-direction: column; 
+            cursor: pointer; 
+            gap: 5px; 
         }
 
-        /* Desain garisnya sendiri */
         .menu-toggle .bar {
-            width: 25px; /* Lebar garis */
-            height: 3px; /* Ketebalan garis */
-            background-color: #0077b6; /* Warnanya biru */
-            transition: all 0.3s ease-in-out; /* Animasi bergerak mulus pas ntar diklik */
-            border-radius: 5px; /* Ujung garis dibikin agak membulat */
+            width: 25px; 
+            height: 3px; 
+            background-color: #0077b6; 
+            transition: all 0.3s ease-in-out; 
+            border-radius: 5px; 
         }
 
         /* --- TAMPILAN KHUSUS RESPONSIVE (HP & TABLET) --- */
-        /* Kode di dalam @media ini CUMA berlaku kalau lebar layar di bawah 768 pixel (ukuran HP) */
         @media (max-width: 768px) {
             
             .menu-toggle {
-                display: flex; /* Nah, munculkan tombol hamburger 3 garisnya di layar HP! */
+                display: flex; 
             }
 
             .nav-links {
-                position: absolute; /* Lepasin menu dari ikatan posisinya biar bebas pindah */
-                top: 100%; /* Taruh pas persis nyambung di bawah navbar */
+                position: absolute; 
+                top: 100%; 
                 left: 0;
-                width: 100%; /* Lebar menu menuhin seluruh layar ke samping */
+                width: 100%; 
                 background: #ffffff;
-                flex-direction: column; /* Menu yang tadinya nyamping, disuruh baris ke bawah */
-                align-items: center; /* Teksnya ditaruh di tengah */
+                flex-direction: column; 
+                align-items: center; 
                 padding: 0;
-                max-height: 0; /* Kita umpetin dulu menunya dengan bikin tingginya jadi 0 */
-                overflow: hidden; /* Sembunyikan semua isi teks yang tumpah dari kotak 0 tadi */
+                max-height: 0; 
+                overflow: hidden; 
                 box-shadow: 0 5px 10px rgba(0,0,0,0.1);
             }
 
-            /* Kalau menu dipencet, kelas '.active' bakal ditambahin sama Javascript */
             .nav-links.active {
-                padding: 20px 0; /* Tambahin bantalan dalam biar nggak sesak */
-                max-height: 300px; /* Buka kotaknya sampai 300px (menunya jadi muncul turun dari atas!) */
+                padding: 20px 0; 
+                max-height: 300px; 
             }
 
             .nav-links li {
-                margin: 10px 0; /* Jarak antar pilihan menu atas-bawah */
+                margin: 10px 0; 
             }
 
-            /* Animasi Ajaib: Tombol 3 garis (Hamburger) ditekuk jadi tanda Silang (X) pas diklik */
-            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; } /* Garis nomor 2 (yang di tengah) diilangin */
-            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); } /* Garis atas miring 45 derajat ke bawah */
-            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); } /* Garis bawah miring 45 derajat ke atas. Jadilah silang! */
+            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; } 
+            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); } 
+            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); } 
         }
 
-        /* --- BANNER BESAR ATAS (HERO SECTION) --- */
+        /* --- BANNER BESAR ATAS (GAMBAR FULL WIDTH) --- */
         .main-hero {
-            /* Background-nya dibikin efek gradasi (peralihan dari biru muda ke biru laut) */
-            background: linear-gradient(135deg, #0077b6 0%, #0096c7 50%, #00b4d8 100%);
-            padding: 100px 5%; /* Kasih jarak lega di dalam kotaknya */
-            text-align: center; /* Taruh semua tulisannya di tengah-tengah */
-            color: white; /* Teks jadi warna putih biar kontras sama latarnya */
-            box-shadow: inset 0 -5px 15px rgba(0,0,0,0.1); /* Efek bayangan tapi dari bagian DALAM kotaknya (inset) */
+            width: 100%;
+            background-color: #0077b6; /* Warna dasar kalau gambar telat loading */
         }
 
-        .main-hero h1 {
-            font-size: 3rem; /* Judulnya dibikin gede banget */
-            margin-bottom: 20px;
-            font-weight: 800; /* Tulisannya tebel banget */
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.2); /* Dikasih bayangan di hurufnya biar lebih enak dibaca */
-            letter-spacing: 1px;
-        }
-
-        .main-hero p {
-            font-size: 1.25rem; /* Teks penjelasan agak kecil */
-            max-width: 750px; /* Panjang maksimal paragraf, biar kalau di laptop layarnya lebar, teksnya nggak ngelebar jelek panjang ke samping */
-            margin: 0 auto; /* Supaya teks yang dilimit lebarnya ini tetap nongkrong persis di tengah layar */
-            line-height: 1.6; /* Jarak atas-bawah antar baris kalimat */
-            opacity: 0.95; /* Sedikiiit tembus pandang biar nggak kaku */
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-        }
-
-        /* Khusus buat HP: Kita kecilin dikit ukuran judulnya biar nggak tumpah */
-        @media (max-width: 768px) {
-            .main-hero h1 { font-size: 2.2rem; }
-            .main-hero p { font-size: 1.1rem; }
+        .main-hero img {
+            width: 100%;
+            height: auto;
+            display: block; /* Menghapus celah putih di bawah gambar */
         }
 
         /* --- BANNER MENUJU GAME (KOTAK INTERAKTIF DI TENGAH) --- */
         .game-banner-container {
-            padding: 60px 5% 40px 5%;
+            padding: 60px 5% 60px 5%;
             display: flex;
-            justify-content: center; /* Ngerapihin kotaknya pas ke tengah layar */
+            justify-content: center; 
         }
 
-        /* Kotak tombol gamenya sendiri */
         .game-banner {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            text-decoration: none; /* Hilangkan garis bawah hyperlink */
+            text-decoration: none; 
             width: 100%;
-            max-width: 1000px; /* Mentoknya sebesar 1000 pixel */
+            max-width: 1000px; 
             padding: 50px 30px;
-            border-radius: 20px; /* Bikin ke-empat sudut kotak melengkung cakep */
+            border-radius: 20px; 
             background: linear-gradient(135deg, #023e8a, #0077b6, #0096c7);
-            background-size: 200% 200%; /* Backgroundnya di-zoom out 200% (dibesarin banget) */
-            animation: gradientMove 5s ease infinite; /* Panggil jurus jalanin warna bergerak santai selama 5 detik, bolak-balik tanpa henti */
+            background-size: 200% 200%; 
+            animation: gradientMove 5s ease infinite; 
             color: white;
             box-shadow: 0 10px 25px rgba(2, 62, 138, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }
 
-        /* Ini rumus animasi pergerakan backgroundnya tadi */
         @keyframes gradientMove {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Pas kotak gamenya disorot/dilewatin mouse kursor kita... */
         .game-banner:hover {
-            transform: translateY(-8px); /* ...dia bakal seolah-olah ngambang naik ke atas 8 pixel */
-            box-shadow: 0 20px 40px rgba(2, 62, 138, 0.5); /* Bayangannya jadi membesar */
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px rgba(2, 62, 138, 0.5); 
         }
 
         .game-banner-title {
@@ -213,53 +179,30 @@
             opacity: 0.95;
         }
 
-        /* Tombol lonjong "Klik di sini" */
         .click-hint {
             margin-top: 25px;
             font-size: 0.95rem;
             font-weight: bold;
-            background: rgba(255,255,255,0.2); /* Latar putih tapi tingkat tembus pandangnya tinggi (opacity cuma 0.2) */
+            background: rgba(255,255,255,0.2); 
             padding: 10px 25px;
-            border-radius: 30px; /* Dibikin melengkung ekstrem biar kayak kapsul */
-            border: 1px solid rgba(255,255,255,0.5); /* Garis tepinya tipis putih tembus pandang */
-            animation: pulse 1.5s infinite alternate; /* Panggil jurus animasi "pulse" detak jantung */
+            border-radius: 30px; 
+            border: 1px solid rgba(255,255,255,0.5); 
+            animation: pulse 1.5s infinite alternate; 
         }
 
-        /* Jurus animasi Detak Jantung */
         @keyframes pulse {
-            from { transform: scale(1); opacity: 0.8; } /* Dari ukuran normal sedikit pudar */
-            to { transform: scale(1.05); opacity: 1; } /* Membesar sedikit (1.05x lipat) dan warnanya pekat */
-        }
-
-        /* --- KONTEN DEDIKASI (Tersedia CSS-nya walau nggak dimunculkan di HTML sekarang) --- */
-        .content-section {
-            padding: 0 5% 50px 5%;
-            text-align: center;
-            flex: 1; /* Suruh bagian ini nyaplok/ngambil sisa-sisa ruang kosong yang ada di layar */
-        }
-
-        .content-section h2 {
-            color: #023e8a;
-            margin-bottom: 10px;
-            font-size: 1.4rem; 
-        }
-
-        .content-section p {
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-            color: #666;
-            font-size: 0.95rem; 
+            from { transform: scale(1); opacity: 0.8; } 
+            to { transform: scale(1.05); opacity: 1; } 
         }
 
         /* --- CATATAN KAKI BAWAH (FOOTER) --- */
         footer {
-            background-color: #222; /* Warnanya hitam ngedoff (abu-abu sangat pekat) */
-            color: #aaa; /* Teks abu-abu agak redup */
+            background-color: #222; 
+            color: #aaa; 
             text-align: center;
             padding: 20px 10px;
             font-size: 0.9rem;
-            margin-top: auto; /* Ini kunci penting! Maksa mendorong footer selalu mentok parkir ke dasar bawah halaman */
+            margin-top: auto; 
         }
     </style>
 </head>
@@ -282,9 +225,9 @@
         </ul>
     </nav>
 
+    <!-- Bagian Banner Utama (Gambar Saja, Full Width) -->
     <header class="main-hero">
-        <h1>Pabrik Air Minum Terpercaya</h1>
-        <p>Menghadirkan kualitas kesegaran alami untuk keluarga Indonesia melalui proses produksi berteknologi tinggi.</p>
+        <img src="tspclub.png" alt="Banner PT Tirta Sukses Perkasa">
     </header>
 
     <div class="game-banner-container">
@@ -302,21 +245,11 @@
     </footer>
 
     <script>
-        // Nyuruh Javascript nyari 2 elemen HTML berdasarkan nama ID-nya, lalu kita simpan ke memori sementara.
-        // 'mobileMenu' itu mewakili tombol 3 garis
         const mobileMenu = document.getElementById('mobile-menu');
-        // 'navMenu' itu mewakili list daftar menunya
         const navMenu = document.getElementById('nav-menu');
 
-        // addEventListener itu ibarat kita nyuruh Javascript buat ngintai: 
-        // "Woi Javascript, kalau tombol 'mobileMenu' kena 'click', jalanin fungsi di bawah ini ya!"
         mobileMenu.addEventListener('click', () => {
-            
-            // toggle artinya saklar on/off. Kalau belum ada kelas 'is-active', tambahin. Kalau udah ada, hapus.
-            // Ini akan memicu animasi CSS ngeubah 3 garis menjadi huruf X
             mobileMenu.classList.toggle('is-active');
-            
-            // Ini akan memicu animasi kotak menu muncul turun dari atas (ngebuka dan nutup berulang kali kalau diklik)
             navMenu.classList.toggle('active');
         });
     </script>
